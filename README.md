@@ -1,2 +1,2 @@
 # Nepalireader
-We are cython and python for speeding up the process.
+We are using cython and python for speeding up the process.
