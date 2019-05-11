@@ -9,8 +9,8 @@ from mainfunc import main
 top = tk.Tk()
 top.title("Nepali Reader")
 top.geometry("600x700")
-#imgicon = ImageTk.PhotoImage(file=os.path.join(r'D:\study materials\IV-I\MAJOR\codings\partOCR\imgs','nepread.ico'))
-#top.tk.call('wm', 'iconphoto', top._w, imgicon)
+imgicon = ImageTk.PhotoImage(file=os.path.join(r'D:\study materials\IV-I\MAJOR\codings\partOCR\imgs','nepread.ico'))
+top.tk.call('wm', 'iconphoto', top._w, imgicon)
 top.resizable(0,0)
 
 #***********************************************************
@@ -22,13 +22,13 @@ class variables:
     img=image
     size_of=[]
     
-    img_ch=Image.open("chooseimg1.ico")
+    img_ch=Image.open("imgs\chooseimg1.ico")
     imgch = ImageTk.PhotoImage(img_ch)
 
-    img_strt=Image.open("startimg.ico")
+    img_strt=Image.open("imgs\startimg.ico")
     imgstrt=ImageTk.PhotoImage(img_strt)
 
-    img_ex=Image.open("exitimg.ico")
+    img_ex=Image.open("imgs\exitimg.ico")
     imgex=ImageTk.PhotoImage(img_ex)
     
     frame2 = tk.Frame(top,highlightbackground="green",
@@ -99,38 +99,20 @@ def choose():
 #***********************************************************    
 def call_main():
     if (variables.fileName!=""):
-        a = main(variables.img)
-        variables.output_txt.insert(tk.END, a)
+        main(variables.img)
 #*********************************************************** 
 def resize_img(img,widthx,heighty):
     th=heighty
     tw=widthx
     if ((heighty>400) or (widthx>600)):
-        if ((heighty>400) and (widthx<600)):
-            r=heighty/widthx
-            h=400
-            hd=heighty-400
-            wd=widthx-hd/r
-            w=int(wd)
-        if ((heighty<400) and (widthx>600)):
+        if widthx/heighty>=600/400:
             r=widthx/heighty
             w=600
-            wd=widthx-600
-            hd=heighty-wd/r
-            h=int(hd)
-        if ((heighty>400) and (widthx>600)):
-            if (heighty>=widthx):
-                r=heighty/widthx
-                h=400
-                hd=heighty-400
-                wd=widthx-hd/r
-                w=int(wd)
-            else:
-                r=widthx/heighty
-                w=600
-                wd=widthx-600
-                hd=heighty-wd/r
-                h=int(hd)
+            h=int(w/r)
+        else:
+            r=heighty/widthx
+            h=400
+            w=int(h/r)
         img = img.resize((w, h), Image.ANTIALIAS)
         variables.size_of.append(w)
         variables.size_of.append(h)        

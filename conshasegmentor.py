@@ -9,7 +9,7 @@ def conshasegmentation(img,count):
     flag=0
     rbar=0
     lbar=0
-    
+    b="" #NEW
     for j in range(0,w):
         countdot1=0
         onetimeflag=0
@@ -57,7 +57,6 @@ def conshasegmentation(img,count):
     if diff>0:
         #cv.imwrite("extracts/core/name"+str(count)+".jpg",img1)
         b = core.recognize(img1)
-        
         count+=1
     #cv.imwrite("extracts/core/name"+str(count)+".jpg",img2)
     a = core.recognize(img2)

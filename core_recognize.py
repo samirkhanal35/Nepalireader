@@ -1,4 +1,3 @@
-
 def recognize(img):
     import keras
     from keras.models import Sequential
