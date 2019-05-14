@@ -9,8 +9,8 @@ from mainfunc import main
 top = tk.Tk()
 top.title("Nepali Reader")
 top.geometry("600x700")
-imgicon = ImageTk.PhotoImage(file=os.path.join(r'D:\study materials\IV-I\MAJOR\codings\partOCR\imgs','nepread.ico'))
-top.tk.call('wm', 'iconphoto', top._w, imgicon)
+#imgicon = ImageTk.PhotoImage(file=os.path.join(r'C:\Users\behal\OneDrive\Documents\GitHub\Nepalireader\imgs','nepread.ico'))
+#top.tk.call('wm', 'iconphoto', top._w, imgicon)
 top.resizable(0,0)
 
 #***********************************************************
@@ -43,6 +43,10 @@ class variables:
     
     L=tk.Label(frame2,bg="white",fg="green",text="(Your image appears here)")
     L.pack()
+    
+    L1=tk.Label(top,fg="black",text="Convert to Speech:")
+    L1.grid(row=6,column=0)
+    L1.pack_propagate(0)
       
 #***********************************************************
 def design_fun():
@@ -61,11 +65,20 @@ def design_fun():
     output_lab=tk.Label(top,text="OUTPUT TEXT",font='Helvetica 11 bold')
     output_lab.grid(row=4,column=0)
     
+    convert_but = tk.Button(top,text ="Convert",font='Ariel 9',compound="right",command=call_convert)
+    convert_but.grid(row=7,column=0)
+    
     exit_but = tk.Button(top,text ="Exit",font='Ariel 9',image=variables.imgex,compound="right",command=call_exit)
-    exit_but.grid(row=6,column=0)
+    exit_but.grid(row=8,column=0)
 #***********************************************************
 def call_exit():
     exit(0)
+#***********************************************************
+def call_convert():
+    import speech
+    a = variables.output_txt.get("1.0",'end-1c')
+    speech.text_to_speech(a)
+    
 #***********************************************************
 def choose():
     variables.fileName=""
@@ -99,7 +112,8 @@ def choose():
 #***********************************************************    
 def call_main():
     if (variables.fileName!=""):
-        main(variables.img)
+        a = main(variables.img)
+        variables.output_txt.insert(tk.END, a)
 #*********************************************************** 
 def resize_img(img,widthx,heighty):
     th=heighty
