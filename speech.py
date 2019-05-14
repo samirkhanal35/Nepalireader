@@ -7,8 +7,10 @@ Created on Tue May 14 07:50:48 2019
 
 def text_to_speech(a):
     from gtts import gTTS
-    import os
+    import playsound
     myobj = gTTS(text=a, lang='hi', slow=False)
     myobj.save("welcome1.mp3")
-    os.system("mpg321 welcome.mp3")
+    
+    playsound.playsound('welcome1.mp3', True)
+    
     return
