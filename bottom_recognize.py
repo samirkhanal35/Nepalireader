@@ -8,7 +8,14 @@ def recognize(img):
     import numpy as np
     import csv
     import cv2 as cv
-    
+    ht = img.shape[0]
+    wt = img.shape[1]
+    for ii in range(0,ht):
+        for jj in range(0,wt):
+            if img[ii,jj]>127:
+                img[ii,jj]=0
+            else:
+                img[ii,jj]=255
     def create_model():
         model = Sequential()
         model.add(Conv2D(32,(3,3),padding='same',activation='relu',input_shape=(32,32,1)))

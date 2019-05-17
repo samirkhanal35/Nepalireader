@@ -5,7 +5,7 @@ from keras.utils import np_utils
 from keras.layers import Dense, Dropout,Activation,Conv2D,MaxPooling2D,Flatten
 from keras.optimizers import Adam
 
-train = pd.read_csv('dataset_core.csv',sep=",",header=None)
+train = pd.read_csv('dataset_core2.csv',sep=",",header=None)
 
 train_labels = train[0]
 train_features = train.loc[:,1:]
