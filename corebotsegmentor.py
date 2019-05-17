@@ -129,41 +129,42 @@ def corebotsegmentation(imgstrip,iscount):
         rat=(wiright[x]-wileft[x])/(hilow[x]-hiup[x])
         if hilow[x]-hiup[x]<=avght and avght!=0:
             imgchar = np.zeros((hilow[x]-hiup[x],wiright[x]-wileft[x],1),np.uint8)
+            imgchar1 = np.zeros((hilow[x]-hiup[x]+3,wiright[x]-wileft[x],1),np.uint8)
             for ver in range(0,hilow[x]-hiup[x]):
                 for hor in range(0,wiright[x]-wileft[x]):
                     imgchar[ver][hor] = imgstrip[hiup[x]+ver][wileft[x]+hor]
+                    imgchar1[ver+3][hor] = imgstrip[hiup[x]+ver][wileft[x]+hor]
             if avgwd!=0:
                 if wiright[x]-wileft[x]>avgwd and rat>1.2:
                     (ccount,b)=conseg.conshasegmentation(imgchar,ccount)
                     a = a+b
                 else:
-                    #cv.imwrite("extracts/core/name"+str(ccount)+".jpg",imgchar)
-                    b = core.recognize(imgchar)
+                    b = core.recognize(imgchar1)
                     a = a+b
                     ccount=ccount+1
             
         if hilow[x]-hiup[x]>avght and avght!=0:
             imgchar = np.zeros((avght,wiright[x]-wileft[x],1),np.uint8)
+            imgchar1 = np.zeros((avght+3,wiright[x]-wileft[x],1),np.uint8)
             if hilow[x]-avght>=0.2*avght:
                 imgbot = np.zeros((hilow[x]-avght,wiright[x]-wileft[x],1),np.uint8)
                 for veri in range(0,hilow[x]-avght):
                     for hori in range(0,wiright[x]-wileft[x]):
                         imgbot[veri][hori] = imgstrip[avght+veri][wileft[x]+hori]
                 imgbot1=bex.botextraction(imgbot)
-                #cv.imwrite("extracts/bottom/name"+str(ccount)+".jpg",imgbot1)
                 b = btm.recognize(imgbot1)
                 a = a+b
                 
             for ver in range(0,avght):
                  for hor in range(0,wiright[x]-wileft[x]):
                     imgchar[ver][hor] = imgstrip[hiup[x]+ver][wileft[x]+hor]
+                    imgchar1[ver+3][hor] = imgstrip[hiup[x]+ver][wileft[x]+hor]
             if avgwd!=0:
                 if wiright[x]-wileft[x]>avgwd and rat>1.2:                    
                     (ccount,b)=conseg.conshasegmentation(imgchar,ccount)
                     a = a+b
                 else:
-                    #cv.imwrite("extracts/core/name"+str(ccount)+".jpg",imgchar)
-                    b = core.recognize(imgchar)
+                    b = core.recognize(imgchar1)
                     a = a+b
                     ccount=ccount+1
                         

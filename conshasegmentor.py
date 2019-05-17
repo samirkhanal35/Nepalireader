@@ -33,8 +33,8 @@ def conshasegmentation(img,count):
                 diff=0
             else:
                 diff=lbar-conwidth
-            img1=np.zeros((h,diff,1),np.uint8)
-            img2=np.zeros((h,w-diff,1),np.uint8)
+            img1=np.zeros((h+3,diff,1),np.uint8)
+            img2=np.zeros((h+3,w-diff,1),np.uint8)
             break
         else:
             if j==w-1:
@@ -43,17 +43,19 @@ def conshasegmentation(img,count):
                     diff=0
                 else:
                     diff=lbar-conwidth
-                img1=np.zeros((h,diff,1),np.uint8)
-                img2=np.zeros((h,w-diff,1),np.uint8)
+                img1=np.zeros((h+3,diff,1),np.uint8)
+                img2=np.zeros((h+3,w-diff,1),np.uint8)
                 break
       
     for ii in range(0,h):
         for jj in range(0,w):
             if jj<diff:
-                img1[ii][jj]=img[ii][jj]
+                img1[ii+3][jj]=img[ii][jj]
             else:
-                img2[ii][jj-diff]=img[ii][jj]
-
+                img2[ii+3][jj-diff]=img[ii][jj]
+    
+    
+    
     if diff>0:
         #cv.imwrite("extracts/core/name"+str(count)+".jpg",img1)
         b = core.recognize(img1)
@@ -62,6 +64,7 @@ def conshasegmentation(img,count):
     a = core.recognize(img2)
     b = b+a
     count+=1
+    
     return (count,b)
     
     

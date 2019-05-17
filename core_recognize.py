@@ -41,6 +41,7 @@ def recognize(img):
     scale = np.max(b)
     b = b.astype(np.float32) /scale
     a = model.predict_classes(b)
+    
     dict={0:'ddha',1:'a',2:'i',3:'u',4:'uu',5:'RRI',6:'e',7:'ka',8:'kha',9:'ga',
       10:'gha',11:'nga',12:'cha',13:'Cha',14:'ja',15:'jha',16:'~na',17:'Ta',
       18:'Tha',19:'Da',20:'Dha',21:'nda',22:'ta',23:'tha',24:'da',25:'dha',
