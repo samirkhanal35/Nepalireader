@@ -104,6 +104,11 @@ def choose():
             variables.widthx=int(1*variables.size_of[0])
             variables.img=cv2.resize(variables.img,(variables.widthx,variables.heighty),interpolation = cv2.INTER_CUBIC)
             variables.size_of=[]
+        elif ((variables.heighty<400) and (variables.widthx<600)):
+            variables.heighty=int(1*variables.size_of[1])
+            variables.widthx=int(1*variables.size_of[0])
+            variables.img=cv2.resize(variables.img,(variables.widthx,variables.heighty),interpolation = cv2.INTER_CUBIC)
+            variables.size_of=[]
         
         variables.L=tk.Label(variables.frame2,image=ph)
         variables.L.image=ph
@@ -129,7 +134,20 @@ def resize_img(img,widthx,heighty):
             w=int(h/r)
         img = img.resize((w, h), Image.ANTIALIAS)
         variables.size_of.append(w)
-        variables.size_of.append(h)        
+        variables.size_of.append(h)
+        
+    elif ((heighty<400) and (widthx<600)):
+        if widthx/heighty>=600/400:
+            r=widthx/heighty
+            w=600
+            h=int(w/r)
+        else:
+            r=heighty/widthx
+            h=400
+            w=int(h/r)
+        img = img.resize((w, h), Image.ANTIALIAS)
+        variables.size_of.append(w)
+        variables.size_of.append(h)
     return img
 #***********************************************************
 design_fun()
