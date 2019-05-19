@@ -8,6 +8,8 @@ def recognize(img):
     import numpy as np
     import csv
     import cv2 as cv
+    img1 = np.full((32,32),0,np.uint8)
+
     ht = img.shape[0]
     wt = img.shape[1]
     for ii in range(0,ht):
@@ -31,7 +33,21 @@ def recognize(img):
         return model
     model = create_model()
     model.load_weights('core_model_weights.h5')
-    img1 = cv.resize(img,(32,32),interpolation = cv.INTER_CUBIC)
+    if wt>=ht:
+        r=wt/ht
+        tw=32
+        th=int(tw/r)
+    else:
+        r=ht/wt
+        th=32
+        tw=int(th/r)
+    img = cv.resize(img,(tw,th),interpolation = cv.INTER_CUBIC)
+    sph=int((32-th)/2)
+    spw=int((32-tw)/2)
+    for it in range(0,th):
+        for jt in range(0,tw):
+            img1[it+sph,jt+spw]=img[it,jt]
+
     b = np.zeros((1,1024),np.uint8)
     for i in range(0,32):
         for j in range(0,32):
