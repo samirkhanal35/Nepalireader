@@ -9,8 +9,8 @@ def text_to_speech(a):
     from gtts import gTTS
     import playsound
     myobj = gTTS(text=a, lang='hi', slow=False)
-    myobj.save("welcome1.mp3")
+    myobj.save("welcome2.mp3")
     
-    playsound.playsound('welcome1.mp3', True)
+    playsound.playsound('welcome2.mp3', True)
     
     return
