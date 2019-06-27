@@ -1,4 +1,4 @@
-def corebotsegmentation(imgstrip,iscount):
+def corebotsegmentation(imgstrip,iscount,m_c,m_b):
     import numpy as np
     import cv2 as cv
     import image
@@ -136,10 +136,10 @@ def corebotsegmentation(imgstrip,iscount):
                     imgchar1[ver+3][hor] = imgstrip[hiup[x]+ver][wileft[x]+hor]
             if avgwd!=0:
                 if wiright[x]-wileft[x]>avgwd and rat>1.2:
-                    (ccount,b)=conseg.conshasegmentation(imgchar,ccount)
+                    (ccount,b)=conseg.conshasegmentation(imgchar,ccount,m_c)
                     a = a+b
                 else:
-                    b = core.recognize(imgchar1)
+                    b = core.recognize(imgchar1,m_c)
                     a = a+b
                     ccount=ccount+1
             
@@ -152,7 +152,7 @@ def corebotsegmentation(imgstrip,iscount):
                     for hori in range(0,wiright[x]-wileft[x]):
                         imgbot[veri][hori] = imgstrip[avght+veri][wileft[x]+hori]
                 imgbot1=bex.botextraction(imgbot)
-                b = btm.recognize(imgbot1)
+                b = btm.recognize(imgbot1,m_b)
                 a = a+b
                 
             for ver in range(0,avght):
@@ -161,10 +161,10 @@ def corebotsegmentation(imgstrip,iscount):
                     imgchar1[ver+3][hor] = imgstrip[hiup[x]+ver][wileft[x]+hor]
             if avgwd!=0:
                 if wiright[x]-wileft[x]>avgwd and rat>1.2:                    
-                    (ccount,b)=conseg.conshasegmentation(imgchar,ccount)
+                    (ccount,b)=conseg.conshasegmentation(imgchar,ccount,m_c)
                     a = a+b
                 else:
-                    b = core.recognize(imgchar1)
+                    b = core.recognize(imgchar1,m_c)
                     a = a+b
                     ccount=ccount+1
                         

@@ -1,9 +1,8 @@
-def recognize(img):
-    import keras
-    from keras.models import Sequential
-    from keras.utils import np_utils
-    from keras.layers import Dense, Dropout,Activation,Conv2D,MaxPooling2D,Flatten
-    from keras.optimizers import Adam
+def recognize(img,model):
+    #from keras.models import Sequential
+    #from keras.utils import np_utils
+    #from keras.layers import Dense, Dropout,Activation,Conv2D,MaxPooling2D,Flatten
+    #from keras.optimizers import Adam
     import pandas as pd
     import numpy as np
     import csv
@@ -18,7 +17,7 @@ def recognize(img):
                 img[ii,jj]=0
             else:
                 img[ii,jj]=255
-    def create_model():
+    '''def create_model():
         model = Sequential()
         model.add(Conv2D(32,(3,3),padding='same',activation='relu',input_shape=(32,32,1)))
         model.add(MaxPooling2D(pool_size=(3,3)))
@@ -32,8 +31,8 @@ def recognize(img):
         model.compile(loss='sparse_categorical_crossentropy',optimizer=Adam(lr=0.01),metrics=['accuracy'])
         return model
     
-    model = create_model()
-    model.load_weights('bottom_model_weights.h5')
+    model = create_model()'''
+    #model.load_weights('bottom_model_weights.h5')
     if wt>=ht:
         r=wt/ht
         tw=32
@@ -62,12 +61,3 @@ def recognize(img):
     a = model.predict_classes(b)
     dict={0:'uu',1:'u'}
     return dict[a[0]]
-
-
-
-
-
-
-
-
-

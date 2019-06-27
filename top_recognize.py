@@ -1,9 +1,8 @@
-def recognize(img):
-    import keras
-    from keras.models import Sequential
-    from keras.utils import np_utils
-    from keras.layers import Dense, Dropout,Activation,Conv2D,MaxPooling2D,Flatten
-    from keras.optimizers import Adam
+def recognize(img,model):
+    #from keras.models import Sequential
+    #from keras.utils import np_utils
+    #from keras.layers import Dense, Dropout,Activation,Conv2D,MaxPooling2D,Flatten
+    #from keras.optimizers import Adam
     import pandas as pd
     import numpy as np
     import csv
@@ -18,7 +17,7 @@ def recognize(img):
                 img[ii,jj]=0
             else:
                 img[ii,jj]=255
-    def create_model():
+    '''def create_model():
         model = Sequential()
         model.add(Conv2D(32,(3,3),padding='same',activation='relu',input_shape=(32,32,1)))
         model.add(MaxPooling2D(pool_size=(3,3)))
@@ -31,8 +30,8 @@ def recognize(img):
         model.add(Dense(4,activation='softmax'))
         model.compile(loss='sparse_categorical_crossentropy',optimizer=Adam(lr=0.01),metrics=['accuracy'])
         return model
-    model = create_model()
-    model.load_weights('top_model_weights.h5')
+    model = create_model()'''
+    #model.load_weights('top_model_weights.h5')
     if wt>=ht:
         r=wt/ht
         tw=32
@@ -47,7 +46,6 @@ def recognize(img):
     for it in range(0,th):
         for jt in range(0,tw):
             img1[it+sph,jt+spw]=img[it,jt]
-
     b = np.zeros((1,1024),np.uint8)
     for i in range(0,32):
         for j in range(0,32):
@@ -56,7 +54,7 @@ def recognize(img):
     scale = np.max(b)
     b = b.astype(np.float32) /scale
     a = model.predict_classes(b)
-    dict={0:'ae',1:'av',2:'i',3:'ii'}
+    dict={0:'ae',1:'av',2:'ii',3:'i'}
     return dict[a[0]]
 
 

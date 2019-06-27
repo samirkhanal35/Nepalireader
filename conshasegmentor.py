@@ -1,4 +1,4 @@
-def conshasegmentation(img,count):
+def conshasegmentation(img,count,m_c):
     import numpy as np
     import cv2 as cv
     import image
@@ -58,10 +58,10 @@ def conshasegmentation(img,count):
     
     if diff>0:
         #cv.imwrite("extracts/core/name"+str(count)+".jpg",img1)
-        b = core.recognize(img1)
+        b = core.recognize(img1,m_c)
         count+=1
     #cv.imwrite("extracts/core/name"+str(count)+".jpg",img2)
-    a = core.recognize(img2)
+    a = core.recognize(img2,m_c)
     b = b+a
     count+=1
     

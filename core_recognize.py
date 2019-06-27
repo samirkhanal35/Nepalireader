@@ -1,15 +1,13 @@
-def recognize(img):
-    import keras
-    from keras.models import Sequential
-    from keras.utils import np_utils
-    from keras.layers import Dense, Dropout,Activation,Conv2D,MaxPooling2D,Flatten
-    from keras.optimizers import Adam
+def recognize(img,model):
+    #from keras.models import Sequential
+    #from keras.utils import np_utils
+    #from keras.layers import Dense, Dropout,Activation,Conv2D,MaxPooling2D,Flatten
+    #from keras.optimizers import Adam
     import pandas as pd
     import numpy as np
     import csv
     import cv2 as cv
     img1 = np.full((32,32),0,np.uint8)
-
     ht = img.shape[0]
     wt = img.shape[1]
     for ii in range(0,ht):
@@ -18,7 +16,8 @@ def recognize(img):
                 img[ii,jj]=0
             else:
                 img[ii,jj]=255
-    def create_model():
+    
+    '''def create_model():
         model = Sequential()
         model.add(Conv2D(32,(3,3),padding='same',activation='relu',input_shape=(32,32,1)))
         model.add(MaxPooling2D(pool_size=(3,3)))
@@ -31,8 +30,8 @@ def recognize(img):
         model.add(Dense(71,activation='softmax'))
         model.compile(loss='sparse_categorical_crossentropy',optimizer=Adam(lr=0.01),metrics=['accuracy'])
         return model
-    model = create_model()
-    model.load_weights('core_model_weights.h5')
+    model = create_model()'''
+    #model.load_weights('core_model_weights.h5')
     if wt>=ht:
         r=wt/ht
         tw=32
@@ -41,23 +40,26 @@ def recognize(img):
         r=ht/wt
         th=32
         tw=int(th/r)
+    if tw == 0:
+        tw = 1
+    if th == 0:
+        th = 1
     img = cv.resize(img,(tw,th),interpolation = cv.INTER_CUBIC)
     sph=int((32-th)/2)
     spw=int((32-tw)/2)
     for it in range(0,th):
         for jt in range(0,tw):
             img1[it+sph,jt+spw]=img[it,jt]
-
+    
     b = np.zeros((1,1024),np.uint8)
     for i in range(0,32):
         for j in range(0,32):
             b[0,j+(i*32)]=(img1[i,j])
-            
+    
     b = b.reshape(-1,32,32,1)
     scale = np.max(b)
     b = b.astype(np.float32) /scale
     a = model.predict_classes(b)
-    
     dict={0:'ddha',1:'a',2:'i',3:'u',4:'uu',5:'RRI',6:'e',7:'ka',8:'kha',9:'ga',
       10:'gha',11:'nga',12:'cha',13:'Cha',14:'ja',15:'jha',16:'~na',17:'Ta',
       18:'Tha',19:'Da',20:'Dha',21:'nda',22:'ta',23:'tha',24:'da',25:'dha',

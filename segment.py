@@ -2,6 +2,13 @@ def segFun(heighty,widthx,img1):
     import numpy as np
     import cv2 as cv
     import topcorseg as tcseg
+    import model_creator as mc
+    model_core = mc.model_creation(71)
+    model_bot = mc.model_creation(2)
+    model_top = mc.model_creation(4)
+    model_core.load_weights('core_model_weights.h5')
+    model_bot.load_weights('bottom_model_weights.h5')
+    model_top.load_weights('top_model_weights.h5')
     words = []
 
     i=0
@@ -147,7 +154,7 @@ def segFun(heighty,widthx,img1):
                             for x in range(0,wordlow-wordhigh):
                                 for y in range(0,j_right-j_left):
                                     imgword[x][y]=img1[wordhigh+x][j_left+y]
-                            a = tcseg.topcorsegmentation(iscounttop,iscountcore,headlow,headup,imgword,wordcount)  
+                            a = tcseg.topcorsegmentation(iscounttop,iscountcore,headlow,headup,imgword,wordcount,model_core,model_bot,model_top)  
                             words.append(a)  
                         wordhigh=0
                         wordlow=0    

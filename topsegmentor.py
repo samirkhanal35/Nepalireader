@@ -1,4 +1,4 @@
-def topsegmentation(imgstrip,iscount):
+def topsegmentation(imgstrip,iscount,m_t):
     import numpy as np
     import cv2 as cv
     import image
@@ -56,7 +56,7 @@ def topsegmentation(imgstrip,iscount):
                     imgchar[ver][hor] = imgstrip[ver][charleft+hor]
                     
             #cv.imwrite("extracts/topmod/name"+str(ccount)+".jpg",imgchar)
-            a = recognize(imgchar)
+            a = recognize(imgchar,m_t)
             b = b+a
             ccount=ccount+1
             randomflag=0
