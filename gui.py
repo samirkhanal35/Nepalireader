@@ -22,13 +22,13 @@ class variables:
     img=image
     size_of=[]
     
-    img_ch=Image.open("imgs\chooseimg1.ico")
+    img_ch=Image.open("chooseimg1.ico")
     imgch = ImageTk.PhotoImage(img_ch)
 
-    img_strt=Image.open("imgs\startimg.ico")
+    img_strt=Image.open("startimg.ico")
     imgstrt=ImageTk.PhotoImage(img_strt)
 
-    img_ex=Image.open("imgs\exitimg.ico")
+    img_ex=Image.open("exitimg.ico")
     imgex=ImageTk.PhotoImage(img_ex)
     
     frame2 = tk.Frame(top,highlightbackground="green",
