@@ -2,7 +2,7 @@ def botextraction(img):
     import cv2 as cv
     import numpy as np
 
-    h,w,ch=img.shape
+    h,w=img.shape
     f1=0
     f2=0
     bl=0
@@ -37,12 +37,11 @@ def botextraction(img):
                 bl=0
                 
                 
-    img1=np.zeros((h-bt,w-bl,1),np.uint8)
+    img1=np.zeros((h-bt,w-bl),np.uint8)
     for ii in range(0,h-bt):
         for jj in range(0,w-bl):
             img1[ii][jj]=img[bt+ii][bl+jj]
 
-    #cv.imshow("dfs",img1)
     return img1
                 
     

@@ -1,12 +1,9 @@
 def recognize(img,model):
-    #from keras.models import Sequential
-    #from keras.utils import np_utils
-    #from keras.layers import Dense, Dropout,Activation,Conv2D,MaxPooling2D,Flatten
-    #from keras.optimizers import Adam
     import pandas as pd
     import numpy as np
     import csv
     import cv2 as cv
+    
     img1 = np.full((32,32),0,np.uint8)
     ht = img.shape[0]
     wt = img.shape[1]
@@ -17,21 +14,6 @@ def recognize(img,model):
             else:
                 img[ii,jj]=255
     
-    '''def create_model():
-        model = Sequential()
-        model.add(Conv2D(32,(3,3),padding='same',activation='relu',input_shape=(32,32,1)))
-        model.add(MaxPooling2D(pool_size=(3,3)))
-        model.add(Conv2D(64,(3,3),padding='same',activation='relu'))
-        model.add(MaxPooling2D(pool_size=(2,2)))
-        
-        model.add(Flatten())
-        model.add(Dense(300,activation='relu'))
-        model.add(Dense(200,activation='relu'))
-        model.add(Dense(71,activation='softmax'))
-        model.compile(loss='sparse_categorical_crossentropy',optimizer=Adam(lr=0.01),metrics=['accuracy'])
-        return model
-    model = create_model()'''
-    #model.load_weights('core_model_weights.h5')
     if wt>=ht:
         r=wt/ht
         tw=32
@@ -50,7 +32,7 @@ def recognize(img,model):
     for it in range(0,th):
         for jt in range(0,tw):
             img1[it+sph,jt+spw]=img[it,jt]
-    
+
     b = np.zeros((1,1024),np.uint8)
     for i in range(0,32):
         for j in range(0,32):
@@ -60,21 +42,15 @@ def recognize(img,model):
     scale = np.max(b)
     b = b.astype(np.float32) /scale
     a = model.predict_classes(b)
-    dict={0:'ddha',1:'a',2:'i',3:'u',4:'uu',5:'RRI',6:'e',7:'ka',8:'kha',9:'ga',
-      10:'gha',11:'nga',12:'cha',13:'Cha',14:'ja',15:'jha',16:'~na',17:'Ta',
-      18:'Tha',19:'Da',20:'Dha',21:'nda',22:'ta',23:'tha',24:'da',25:'dha',
-      26:'na',27:'pa',28:'pha',29:'ba',30:'bha',31:'ma',32:'ya',33:'ra',34:'la',
-      35:'wa',36:'sha',37:'Sha',38:'sa',39:'ha',40:'ksa',41:'tra',42:'Gya',
-      43:'k',44:'kh',45:'g',46:'Gh',47:'ch',48:'J',49:'~n',50:'nd',51:'t',
-      52:'th',53:'dh',54:'n',55:'p',56:'b',57:'bh',58:'m',59:'l',60:'w',
-      61:'sh',62:'Sh',63:'s',64:'ks',65:'ddhya',66:'shra',67:'tta',68:'Tra',
-      69:'dadh',70:'a'}
+    dict={0:'a',1:'i',2:'u',3:'uu',4:'RRI',5:'e',6:'ka',7:'kha',8:'ga',
+          9:'gha',10:'cha',11:'chha',12:'ja',13:'jha',14:'~na',15:'Ta',
+          16:'Tha',17:'Da',18:'Dha',19:'n.a',20:'ta',21:'tha',22:'da',
+          23:'dha',24:'na',25:'pa',26:'pha',27:'ba',28:'bha',29:'ma',
+          30:'ya',31:'ra',32:'la',33:'va',34:'sha',35:'Sha',36:'sa',
+          37:'ha',38:'kchya',39:'tra',40:'gya',41:'k',42:'kh',43:'g',
+          44:'ch',45:'j',46:'~n',47:'n.',48:'t',49:'th',50:'dh',51:'n',
+          52:'p',53:'b',54:'bh',55:'m',56:'l',57:'v',58:'sh',59:'Sh',
+          60:'s',61:'kch',62:'ddya',63:'shra',64:'tta',65:'kra',66:'dhda',
+          67:'dda',68:'.na',69:'gh',70:'a'}
     
     return dict[a[0]]
-
-
-
-
-
-
-

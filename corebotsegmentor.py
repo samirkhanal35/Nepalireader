@@ -1,14 +1,14 @@
-def corebotsegmentation(imgstrip,iscount,m_c,m_b):
+def corebotsegmentation(imgstrip,iscount,wcount,min_i,top_list,bot_list,m_c,m_b,m_t):
     import numpy as np
     import cv2 as cv
     import image
+    import void_cut as vc
     import conshasegmentor as conseg
     import botextractor as bex
-    import core_recognize as core
-    import bottom_recognize as btm
     a=""
     
-    h,w,ch=imgstrip.shape
+    h,w=imgstrip.shape
+    bot_mark=h
     maxcharht=h
     maxcharwd=0
     flag1=0
@@ -17,7 +17,7 @@ def corebotsegmentation(imgstrip,iscount,m_c,m_b):
     randomflag=0
     charleft=0
     charright=0
-    ccount=iscount[0]
+    ccount=1
     avght=0
     avgwd=0
     hilow=[]
@@ -128,45 +128,53 @@ def corebotsegmentation(imgstrip,iscount,m_c,m_b):
     for x in range(0,len(hilow)):
         rat=(wiright[x]-wileft[x])/(hilow[x]-hiup[x])
         if hilow[x]-hiup[x]<=avght and avght!=0:
-            imgchar = np.zeros((hilow[x]-hiup[x],wiright[x]-wileft[x],1),np.uint8)
-            imgchar1 = np.zeros((hilow[x]-hiup[x]+3,wiright[x]-wileft[x],1),np.uint8)
+            imgchar = np.zeros((hilow[x]-hiup[x],wiright[x]-wileft[x]),np.uint8)
             for ver in range(0,hilow[x]-hiup[x]):
                 for hor in range(0,wiright[x]-wileft[x]):
                     imgchar[ver][hor] = imgstrip[hiup[x]+ver][wileft[x]+hor]
-                    imgchar1[ver+3][hor] = imgstrip[hiup[x]+ver][wileft[x]+hor]
             if avgwd!=0:
-                if wiright[x]-wileft[x]>avgwd and rat>1.2:
-                    (ccount,b)=conseg.conshasegmentation(imgchar,ccount,m_c)
+                if wiright[x]-wileft[x]>avgwd and rat>1.4:
+                    (ccount,b)=conseg.conshasegmentation(imgchar,ccount,wcount,top_list,m_c,m_t)
                     a = a+b
                 else:
-                    b = core.recognize(imgchar1,m_c)
+                    b=vc.edition(imgchar,wcount,ccount,"","two",m_c)
                     a = a+b
+                    if type(top_list[ccount])!=int:
+                        c = vc.edition(top_list[ccount],wcount,ccount,"top","two",m_t)
+                        a = a+c
+                    if type(bot_list[ccount])!=int:
+                        c = vc.edition(bot_list[ccount],wcount,ccount,"bot","one",m_b)
+                        a = a+c    
                     ccount=ccount+1
             
-        if hilow[x]-hiup[x]>avght and avght!=0:
-            imgchar = np.zeros((avght,wiright[x]-wileft[x],1),np.uint8)
-            imgchar1 = np.zeros((avght+3,wiright[x]-wileft[x],1),np.uint8)
+        if (hilow[x]-hiup[x]>avght and avght!=0):
+            bot_f= 0
+            
+            imgchar = np.zeros((avght,wiright[x]-wileft[x]),np.uint8)
             if hilow[x]-avght>=0.2*avght:
-                imgbot = np.zeros((hilow[x]-avght,wiright[x]-wileft[x],1),np.uint8)
+                imgbot = np.zeros((hilow[x]-avght,wiright[x]-wileft[x]),np.uint8)
                 for veri in range(0,hilow[x]-avght):
                     for hori in range(0,wiright[x]-wileft[x]):
                         imgbot[veri][hori] = imgstrip[avght+veri][wileft[x]+hori]
                 imgbot1=bex.botextraction(imgbot)
-                b = btm.recognize(imgbot1,m_b)
-                a = a+b
+                bot_f = 1
                 
             for ver in range(0,avght):
                  for hor in range(0,wiright[x]-wileft[x]):
                     imgchar[ver][hor] = imgstrip[hiup[x]+ver][wileft[x]+hor]
-                    imgchar1[ver+3][hor] = imgstrip[hiup[x]+ver][wileft[x]+hor]
             if avgwd!=0:
-                if wiright[x]-wileft[x]>avgwd and rat>1.2:                    
-                    (ccount,b)=conseg.conshasegmentation(imgchar,ccount,m_c)
+                if wiright[x]-wileft[x]>avgwd and rat>1.4:                    
+                    (ccount,b)=conseg.conshasegmentation(imgchar,ccount,wcount,top_list,m_c,m_t)
                     a = a+b
                 else:
-                    b = core.recognize(imgchar1,m_c)
+                    b=vc.edition(imgchar,wcount,ccount,"","two",m_c)
                     a = a+b
+                    if bot_f==1:
+                        c = vc.edition(imgbot1,wcount,ccount,"bot","two",m_b)
+                        a = a+c
+                    if type(top_list[ccount])!=int:
+                        c = vc.edition(top_list[ccount],wcount,ccount,"top","two",m_t)
+                        a = a+c
                     ccount=ccount+1
-                        
-    iscount[0]=ccount 
+                         
     return a

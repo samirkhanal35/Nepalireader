@@ -1,4 +1,4 @@
-def main(img):
+def main(img,model_core,model_top,model_bot):
     import cv2
     import numpy as np
     import gary_convert as gc
@@ -33,7 +33,7 @@ def main(img):
     print("Binarized")
     #cv2.imshow("binarization",img1)
     #*********************************************
-    a = sg.segFun(heighty,widthx,img1)
+    a = sg.segFun(heighty,widthx,img1,model_core,model_top,model_bot)
     
     print("Segmented")
     return a

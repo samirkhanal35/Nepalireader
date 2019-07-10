@@ -1,10 +1,9 @@
-def conshasegmentation(img,count,m_c):
+def conshasegmentation(img,ccount,wcount,top_list,m_c,m_t):
     import numpy as np
     import cv2 as cv
     import image
-    import core_recognize as core
-
-    h,w,ch=img.shape
+    import void_cut as vc
+    h,w=img.shape
     countdot1=0
     flag=0
     rbar=0
@@ -29,22 +28,19 @@ def conshasegmentation(img,count,m_c):
         if rbar!=0 and lbar!=0:
             barwidth=rbar-lbar
             conwidth=int((w-barwidth)/2)
-            if lbar-conwidth<0:
+            if lbar-conwidth<int(2*conwidth/3):
                 diff=0
             else:
-                diff=lbar-conwidth
-            img1=np.zeros((h+3,diff,1),np.uint8)
-            img2=np.zeros((h+3,w-diff,1),np.uint8)
+                diff=w-barwidth-conwidth
+            img1=np.zeros((h+3,diff),np.uint8)
+            img2=np.zeros((h+3,w-diff),np.uint8)
             break
         else:
             if j==w-1:
                 conwidth=int(w/2)
-                if lbar-conwidth<0:
-                    diff=0
-                else:
-                    diff=lbar-conwidth
-                img1=np.zeros((h+3,diff,1),np.uint8)
-                img2=np.zeros((h+3,w-diff,1),np.uint8)
+                diff=int(w-conwidth*1.2)
+                img1=np.zeros((h+3,diff),np.uint8)
+                img2=np.zeros((h+3,w-diff),np.uint8)
                 break
       
     for ii in range(0,h):
@@ -57,17 +53,13 @@ def conshasegmentation(img,count,m_c):
     
     
     if diff>0:
-        #cv.imwrite("extracts/core/name"+str(count)+".jpg",img1)
-        b = core.recognize(img1,m_c)
-        count+=1
-    #cv.imwrite("extracts/core/name"+str(count)+".jpg",img2)
-    a = core.recognize(img2,m_c)
+        b = vc.edition(img1,wcount,ccount,"","two",m_c)
+        ccount+=1
+    a = vc.edition(img2,wcount,ccount,"","two",m_c)
     b = b+a
-    count+=1
+    if type(top_list[ccount])!=int:
+        c = vc.edition(top_list[ccount],wcount,ccount,"top","two",m_t)
+        b = b+c
+    ccount+=1
     
-    return (count,b)
-    
-    
-            
-            
-    
+    return (ccount,b)

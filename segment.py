@@ -1,14 +1,7 @@
-def segFun(heighty,widthx,img1):
+def segFun(heighty,widthx,img1,model_core,model_top,model_bot):
     import numpy as np
     import cv2 as cv
     import topcorseg as tcseg
-    import model_creator as mc
-    model_core = mc.model_creation(71)
-    model_bot = mc.model_creation(2)
-    model_top = mc.model_creation(4)
-    model_core.load_weights('core_model_weights.h5')
-    model_bot.load_weights('bottom_model_weights.h5')
-    model_top.load_weights('top_model_weights.h5')
     words = []
 
     i=0
@@ -103,7 +96,6 @@ def segFun(heighty,widthx,img1):
                         wordcount+=1
 
                 if (j_left!=0 and j_right!=0):      #A word is detected after Vertical Projection.
-                    #print("left="+str(j_left),"right="+str(j_right),"hi="+str(i_high),"low="+str(i_low))
                     wordwidth = abs(j_right-j_left)
                     f1=0
                     f2=0
@@ -151,11 +143,22 @@ def segFun(heighty,widthx,img1):
                             headlow=hedlist[len(hedlist)-1]-wordhigh
                             headup=hedlist[0]-wordhigh
                             imgword = np.zeros((wordlow-wordhigh,j_right-j_left,1),np.uint8)
+                            min_histo=j_right-j_left
+                            min_x=0
                             for x in range(0,wordlow-wordhigh):
+                                histo_count=0                       #NEW
                                 for y in range(0,j_right-j_left):
                                     imgword[x][y]=img1[wordhigh+x][j_left+y]
-                            a = tcseg.topcorsegmentation(iscounttop,iscountcore,headlow,headup,imgword,wordcount,model_core,model_bot,model_top)  
-                            words.append(a)  
+                                    if imgword[x][y]==0 and x>headlow:  #NEW
+                                        #imghisto[x-headlow][histo_count]=0  #NEW
+                                        histo_count+=1  #NEW
+                                
+                                if histo_count<=min_histo and x>headlow:  #NEW
+                                    min_x=x-headlow             #NEW
+                                    min_histo=histo_count
+                            if headup!=0 or headlow!=0:
+                                a = tcseg.topcorsegmentation(iscounttop,iscountcore,headlow,headup,imgword,min_x,wordcount,model_core,model_bot,model_top)  
+                            words.append(a)
                         wordhigh=0
                         wordlow=0    
 
@@ -166,6 +169,8 @@ def segFun(heighty,widthx,img1):
         i+=1
     print("word="+str(wordcount))
     return words
+
+    
                             
                         
             

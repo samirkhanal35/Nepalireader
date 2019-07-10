@@ -5,6 +5,7 @@ import cv2
 from PIL import Image,ImageTk
 import image
 import numpy as np
+import model_creator as mc
 from mainfunc import main
 top = tk.Tk()
 top.title("Nepali Reader")
@@ -117,7 +118,9 @@ def choose():
 #***********************************************************    
 def call_main():
     if (variables.fileName!=""):
-        a = main(variables.img)
+        a = ""
+        a = main(variables.img,model_core,model_top,model_bot)
+        variables.output_txt.delete('1.0',tk.END)
         variables.output_txt.insert(tk.END, a)
 #*********************************************************** 
 def resize_img(img,widthx,heighty):
@@ -151,7 +154,12 @@ def resize_img(img,widthx,heighty):
     return img
 #***********************************************************
 design_fun()
-
+model_core = mc.model_creation(71)
+model_bot = mc.model_creation(2)
+model_top = mc.model_creation(4)
+model_core.load_weights('core_model_weights.h5')
+model_bot.load_weights('bottom_model_weights.h5')
+model_top.load_weights('top_model_weights.h5')
 
 top.mainloop()
 
