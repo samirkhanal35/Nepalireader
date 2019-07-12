@@ -43,10 +43,16 @@ def edition(img,wcount,ccount,str1,str2,rec_model):
                     
             #cv.imshow("char"+str(wcount)+"fd"+str1+str(ccount),img1)
             if str1=="":
-                img1 = np.zeros((cbot+3,cright-cleft),np.uint8)
+                img1 = np.zeros((cbot+3,cright-cleft+6),np.uint8)
                 for ii in range(0,cbot):
                     for jj in range(0,cright-cleft):
-                        img1[ii+3,jj]=img[ii,cleft+jj]
+                        img1[ii+3,jj+2]=img[ii,cleft+jj]
+                    img1[ii+3,cright-cleft+2] = 255
+                    img1[ii+3,cright-cleft+3] = 255
+                    img1[ii+3,cright-cleft+4] = 255
+                    img1[ii+3,cright-cleft+5] = 255
+                    img1[ii+3,0] = 255
+                    img1[ii+3,1] = 255
                 #cv.imshow("wd"+str(wcount)+"ch"+str(ccount),img1)
                 a = core.recognize(img1,rec_model)            
             elif str1=="top":
