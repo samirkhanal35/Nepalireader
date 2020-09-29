@@ -98,13 +98,29 @@ pixel v alue = 0, if pixel v alue < threshold v alue.<br/>
 
 
 # Segmentation
-<b>Feature Extraction</b><br/>
+
+The segmentation process that extracts constituent symbols images from a word for Devanagari
+script follows the following major tasks:<br /><br />
+Task 1: Remove the header line.<br />
+Task 2: Extract subimages that are vertically separate from their neighbors. These subimages may contain more than one connected component.<br />
+Task 3: Select the subimages that need further segmentation due to the presence of lower modifiers. A selection criterion is required for selecting these.<br />
+Task 4: Separate the lower modifiers from the subimages selected in step 3.<br />
+Task 5: Select the subimages that contain conjuncts characters. A selection criterion is required for selecting these.<br />
+Task 6: Segment the conjunct subimages selected in step 5 into constituent consonant subimages.<br /><br />
+
+![segmentation](https://github.com/samirkhanal35/Nepalireader/blob/master/segmentation.png)<br /><br />
+
+
+# Recognition
+
+The segmented images are ordered according to their positions in the word for better combination of recognized characters.<br />
+
+For recognition, we have used three different CNN models. One for upper modifier, one for lower modefier and one for core characters.
 <br/><br/>
 
-<b>Recognition</b><br/>
-<br/><br/>
+# Transliteration
 
-
+For transliteration we have used IPA(International Phonetic Alphabet) standards for Transliteration and our personal rules that we proposed for better phonetic arrangements of vowels.
 
 # Outputs
 ![output_1](https://github.com/samirkhanal35/Nepalireader/blob/master/nepali_reader_op.png)
@@ -146,15 +162,3 @@ For linux users: sudo apt-get install python3-tk<br /><br />
 For installation guides and problems you can go to their respective wesites.<br />
 
 After installation of <b>Prerequisites</b> , you can clone or download the repo and run gui.py file to run the program.<br />
-
-
-
-
-# Nepalireader
-
-
-
-# Segmentation steps
-![segmentation](https://github.com/samirkhanal35/Nepalireader/blob/master/segmentation.png)
-
-
