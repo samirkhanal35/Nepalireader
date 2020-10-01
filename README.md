@@ -1,6 +1,6 @@
 # Nepalireader
 
-It is a recognizer developed using Tensorflow. It is used to recognize the Nepali digits from their images.<br/><br/>
+It is a recognizer developed using Convolutional Neural Network. It is used to recognize the Nepali characters from their images.<br/><br/>
 
 <b>Design:</b><br/>
 Front-end: Tkinter<br/>
