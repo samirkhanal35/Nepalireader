@@ -47,7 +47,7 @@ using the relation,<br/><br/>
 
 <br/><br/>
 
-We have implemented Gaussian blur for 3x3 window i.e. radius r = 2, which results
+We have implemented Gaussian blur with the radius r = 2 i.e. 3x3 window, which results in
 the standard deviation to be σ = 1.3674.<br/><br/>
 
 Algorithm:<br/>
